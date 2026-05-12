@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EMB Review | Preview Renderer Prototype</title>
+  <link rel="stylesheet" href="../../agent/preview-styles.css" />
+  <style>
+    .prototype-note {
+      max-width: 600px;
+      margin: 24px auto 0;
+      padding: 12px 16px;
+      border: 1px solid #d9d9d9;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #3d3d3d;
+      font: 14px/1.45 Arial, sans-serif;
+    }
+
+    .prototype-note code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+    }
+
+    .prototype-debug {
+      max-width: 600px;
+      margin: 16px auto 40px;
+      padding: 12px 16px;
+      border: 1px solid #d9d9d9;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #3d3d3d;
+      font: 12px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace;
+      white-space: pre-wrap;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="prototype-note">
+    Dieser isolierte Prototyp rendert eine Preview deterministisch aus <code>email_state</code>.
+    Die sichtbaren Module werden nicht als HTML neu gebaut, sondern als vollstaendige
+    <code>data-module</code>-Bloecke aus einer eingebetteten kanonischen Registry geklont.
+  </div>
+
+  <div class="preview-shell">
+    <main class="preview-canvas">
+      <section class="module preview-subject" data-preview-slot="subject">
+        <div class="module__inner">
+          <div class="preview-subject__stack">
+            <p class="preview-subject__line preview-subject__line--subject">Subject: <span data-preview-subject-text>Hier steht der Vorschlag fuer Subject</span></p>
+            <p class="preview-subject__line preview-subject__line--preheader">Preheader: <span data-preview-preheader-text>Hier steht der Vorschlag fuer Preheader</span></p>
+          </div>
+        </div>
+      </section>
+      <div data-preview-module-slot></div>
+    </main>
+  </div>
+
+  <pre class="prototype-debug" data-debug-output></pre>
+
+  <script id="email-state" type="application/json">
+{
+  "subject": "Immobiliensuche digital und klar organisiert",
+  "preheader": "Deterministische Preview aus kanonischen Modulbloecken statt frei rekonstruiertem HTML.",
+  "templateContext": {
+    "mode": "default_template",
+    "resolvedBaseTemplateId": "569946"
+  },
+  "salutationContext": "generic",
+  "modules": [
+    {
+      "instance_id": "mod-logo-1",
+      "module_id": "logo",
+      "snippet_name": "emb_logo",
+      "content": {}
+    },
+    {
+      "instance_id": "mod-hero-1",
+      "module_id": "hero-image-top",
+      "snippet_name": "emb_hero_image_top",
+      "content": {
+        "emb_hero_image_top_preheadline": "Digitaler Preview-Renderer",
+        "emb_hero_image_top_headline": "Bestehende Module werden strukturell 1:1 aus der Registry uebernommen",
+        "emb_hero_image_top_headline_size": "l",
+        "emb_hero_image_top_show_small_headline": "false",
+        "emb_hero_image_top_show_large_headline": "true",
+        "emb_hero_image_top_show_salutation": "true",
+        "emb_hero_image_top_use_snippetcall_salutation": "false",
+        "emb_hero_image_top_salutation": "Hallo Anrede,",
+        "emb_hero_image_top_body": [
+          "Dieser Prototyp prueft, ob ein renderer-basierter Preview-Bau fehlende Wrapper, Klassen und responsive Struktur technisch verhindern kann."
+        ],
+        "emb_hero_image_top_button_label": "Mehr erfahren",
+        "emb_hero_image_top_button_url": "https://www.immobilienscout24.de"
+      }
+    },
+    {
+      "instance_id": "mod-services-1",
+      "module_id": "servicetiles",
+      "snippet_name": "emb_servicetiles",
+      "content": {
+        "emb_servicetiles_headline": "Vier Services bleiben als vollstaendige Cards erhalten",
+        "emb_servicetiles_col_1_icon_url": "https://d15k2d11r6t6rl.cloudfront.net/pub/bfra/tgru1zsx/1u4/6b3/i28/board_sign_white.png",
+        "emb_servicetiles_col_1_title": "Ab 0EUR inserieren",
+        "emb_servicetiles_col_1_description": "Mieter oder Kaeufer finden",
+        "emb_servicetiles_col_1_url": "https://www.immobilienscout24.de/anbieten/anzeige-schalten/start/",
+        "emb_servicetiles_col_2_icon_url": "https://d15k2d11r6t6rl.cloudfront.net/pub/bfra/tgru1zsx/1is/2t3/zqq/Energieausweiss.png",
+        "emb_servicetiles_col_2_title": "Energieausweis bestellen",
+        "emb_servicetiles_col_2_description": "Pflicht fuer Vermietung und Verkauf",
+        "emb_servicetiles_col_2_url": "https://www.immobilienscout24.de/energieausweis.html",
+        "emb_servicetiles_col_3_icon_url": "https://d15k2d11r6t6rl.cloudfront.net/pub/bfra/tgru1zsx/ak4/08b/dag/mietzahlungs-einkommensnachweis_white.png",
+        "emb_servicetiles_col_3_title": "Suchen+ fuer Kauf",
+        "emb_servicetiles_col_3_description": "Das Plus an Informationen",
+        "emb_servicetiles_col_3_url": "https://www.immobilienscout24.de/premium-mitgliedschaft-kauf/leistungen/",
+        "emb_servicetiles_col_4_icon_url": "https://d15k2d11r6t6rl.cloudfront.net/pub/bfra/tgru1zsx/62q/092/p9h/user_tie_white.png",
+        "emb_servicetiles_col_4_title": "Makler finden",
+        "emb_servicetiles_col_4_description": "Passenden Profi finden",
+        "emb_servicetiles_col_4_url": "https://www.immobilienscout24.de/maklervergleich/"
+      }
+    },
+    {
+      "instance_id": "mod-listing-1",
+      "module_id": "teaser-2col-listing",
+      "snippet_name": "emb_teaser_2col_listing",
+      "content": {
+        "emb_teaser_2col_listing_headline": "Responsive Listing-Struktur bleibt unveraendert erhalten",
+        "emb_teaser_2col_listing_col_1_body": "Card 1 nutzt weiter die bestehende Listing-Zeile mit Bildwrapper, Copy-Block und Chevron-Link.",
+        "emb_teaser_2col_listing_col_1_chevron_label": "Details ansehen",
+        "emb_teaser_2col_listing_col_1_chevron_url": "https://www.immobilienscout24.de",
+        "emb_teaser_2col_listing_col_2_body": "Card 2 prueft, dass Desktop- und Mobile-Layout nicht aus Beschreibung neu gebaut werden.",
+        "emb_teaser_2col_listing_col_2_chevron_label": "Zum Expose",
+        "emb_teaser_2col_listing_col_2_chevron_url": "https://www.immobilienscout24.de",
+        "emb_teaser_2col_listing_col_3_body": "Card 3 laesst die kanonischen 4:3-Placeholder, Wrapper und Stack-Klassen unangetastet.",
+        "emb_teaser_2col_listing_col_3_chevron_label": "Mehr lesen",
+        "emb_teaser_2col_listing_col_3_chevron_url": "https://www.immobilienscout24.de",
+        "emb_teaser_2col_listing_col_4_body": "Card 4 zeigt, dass nur Inhalte ersetzt werden, waehrend die komplette Row-Struktur erhalten bleibt.",
+        "emb_teaser_2col_listing_col_4_chevron_label": "Weitere Infos",
+        "emb_teaser_2col_listing_col_4_chevron_url": "https://www.immobilienscout24.de"
+      }
+    },
+    {
+      "instance_id": "mod-footer-1",
+      "module_id": "footer",
+      "snippet_name": "emb_footer_marketing",
+      "content": {}
+    }
+  ]
+}
+  </script>
+
+  <template id="module-registry">
+<!-- MODULE: logo | SNIPPET: emb_logo -->
+<section class="module theme-white" data-module="logo" data-snippet="emb_logo">
+  <div class="module__inner module__inner--logo">
+    <a class="module__logo-link" href="https://www.immobilienscout24.de/" title="ImmoScout24">
+      <img
+        class="module__logo-image"
+        src="https://www.static-immobilienscout24.de/fro/ite/_/IS24-Logo_horizontal_left_white.png"
+        alt="Logo ImmoScout24"
+        width="185"
+        height="47"
+      />
+    </a>
+  </div>
+</section>
+
+<!-- MODULE: hero-image-top | SNIPPET: emb_hero_image_top -->
+<section class="module theme-white" data-module="hero-image-top" data-snippet="emb_hero_image_top">
+  <div class="module__inner">
+    <div class="module__hero-area module__hero-area--head">
+      <div class="module__head">
+        <div class="module__hero-meta">
+          <p class="module__eyebrow" data-export-field="emb_hero_image_top_preheadline" data-export-role="preheadline">Digitales Immobilienprodukt</p>
+          <span class="module__badge is-hidden">Badge</span>
+        </div>
+        <span class="is-hidden" data-export-field="emb_hero_image_top_headline_size" data-export-role="technical-variant">l</span>
+        <span class="is-hidden" data-export-field="emb_hero_image_top_show_small_headline" data-export-role="technical-flag">false</span>
+        <span class="is-hidden" data-export-field="emb_hero_image_top_show_large_headline" data-export-role="technical-flag">true</span>
+        <span class="is-hidden" data-export-field="emb_hero_image_top_show_salutation" data-export-role="technical-flag">true</span>
+        <span class="is-hidden" data-export-field="emb_hero_image_top_use_snippetcall_salutation" data-export-role="technical-flag">false</span>
+        <h2 class="module__title module__title--hero-large" data-export-field="emb_hero_image_top_headline" data-export-role="headline" data-preview-size-field="emb_hero_image_top_headline_size" data-preview-size-legacy-small-field="emb_hero_image_top_show_small_headline" data-preview-size-legacy-large-field="emb_hero_image_top_show_large_headline" data-preview-size-small-class="module__title--hero-small" data-preview-size-large-class="module__title--hero-large" data-preview-size-invalid-class="module__title--hero-invalid">Vermarkten Sie Ihre Immobilie digital, klar und zeitsparend</h2>
+      </div>
+      <div class="module__hero-spacer module__hero-spacer--25" aria-hidden="true"></div>
+    </div>
+    <div class="module__hero-flow">
+      <div class="module__hero-area module__hero-area--image">
+        <div class="media media--hero">
+          <div
+            class="preview-image-placeholder preview-image-placeholder--16x9 preview-image-placeholder--pad-lg"
+            data-image-field="emb_hero_image_top_image_url"
+            data-image-alt-field="emb_hero_image_top_image_alt"
+          >
+            <div class="preview-image-placeholder__text">
+              <p class="preview-image-placeholder__meta">16:9 | 960 x 540 px<br />(Hi-Res 1920 x 1080)</p>
+            </div>
+          </div>
+        </div>
+        <div class="module__hero-spacer module__hero-spacer--35" aria-hidden="true"></div>
+      </div>
+      <div class="module__hero-area module__hero-area--copy">
+        <div class="module__copy">
+          <p class="module__body" data-export-field="emb_hero_image_top_salutation" data-export-role="salutation">Hallo Anrede,</p>
+          <div class="module__hero-spacer module__hero-spacer--salutation" aria-hidden="true"></div>
+          <div class="module-rich-full-body module-rich-full-body--hero" data-export-field="emb_hero_image_top_body" data-export-role="richtext">
+            <p class="module__body" data-export-role="body-paragraph" data-export-index="1">Mit einem digitalen Vermarktungspaket gewinnen Sie mehr Uebersicht und bringen Ihre Vermarktung einfacher in den Alltag.</p>
+          </div>
+          <div class="module__hero-spacer module__hero-spacer--button" aria-hidden="true"></div>
+          <div class="module__cta-row">
+            <a class="button-filled-brand" href="https://www.immobilienscout24.de" target="_blank" rel="noreferrer" data-token-attr-href="links.default_cta" data-export-field="emb_hero_image_top_button_label" data-export-url-field="emb_hero_image_top_button_url" data-export-role="cta">Lorem ipsum dolor</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULE: servicetiles | SNIPPET: emb_servicetiles -->
+<section class="module theme-white" data-module="servicetiles" data-snippet="emb_servicetiles">
+  <div class="module__inner">
+    <div class="stack">
+      <div class="module__head">
+        <h2 class="module__title module__title--medium" data-export-field="emb_servicetiles_headline" data-export-role="headline">Passende Services fuer Ihre Immobiliensuche</h2>
+      </div>
+      <div class="servicetiles-grid">
+        <article class="servicetiles-card" data-export-item="service-card" data-export-index="1">
+          <a class="servicetiles-card__link" href="https://www.immobilienscout24.de/anbieten/anzeige-schalten/start/" target="_blank" rel="noreferrer" data-export-url-field="emb_servicetiles_col_1_url">
+            <div class="servicetiles-card__panel">
+              <div class="servicetiles-card__header">
+                <img
+                  class="servicetiles-card__icon"
+                  src="https://d15k2d11r6t6rl.cloudfront.net/pub/bfra/tgru1zsx/1u4/6b3/i28/board_sign_white.png"
+                  alt=""
+                  width="32"
+                  height="32"
+                  data-image-field="emb_servicetiles_col_1_icon_url"
+                />
+              </div>
+              <h3 class="servicetiles-card__title" data-export-field="emb_servicetiles_col_1_title">Ab 0&euro; inserieren</h3>
+              <p class="module__body servicetiles-card__body" data-export-field="emb_servicetiles_col_1_description">Mieter oder K&auml;ufer finden</p>
+            </div>
+          </a>
+        </article>
+        <article class="servicetiles-card" data-export-item="service-card" data-export-index="2">
+          <a class="servicetiles-card__link" href="https://www.immobilienscout24.de/energieausweis.html" target="_blank" rel="noreferrer" data-export-url-field="emb_servicetiles_col_2_url">
+            <div class="servicetiles-card__panel">
+              <div class="servicetiles-card__header">
+                <img
+                  class="servicetiles-card__icon"
+                  src="https://d15k2d11r6t6rl.cloudfront.net/pub/bfra/tgru1zsx/1is/2t3/zqq/Energieausweiss.png"
+                  alt=""
+                  width="32"
+                  height="32"
+                  data-image-field="emb_servicetiles_col_2_icon_url"
+                />
+              </div>
+              <h3 class="servicetiles-card__title" data-export-field="emb_servicetiles_col_2_title">Energieausweis bestellen</h3>
+              <p class="module__body servicetiles-card__body" data-export-field="emb_servicetiles_col_2_description">Pflicht f&uuml;r Vermietung &amp; Verkauf</p>
+            </div>
+          </a>
+        </article>
+        <article class="servicetiles-card" data-export-item="service-card" data-export-index="3">
+          <a class="servicetiles-card__link" href="https://www.immobilienscout24.de/premium-mitgliedschaft-kauf/leistungen/" target="_blank" rel="noreferrer" data-export-url-field="emb_servicetiles_col_3_url">
+            <div class="servicetiles-card__panel">
+              <div class="servicetiles-card__header">
+                <img
+                  class="servicetiles-card__icon"
+                  src="https://d15k2d11r6t6rl.cloudfront.net/pub/bfra/tgru1zsx/ak4/08b/dag/mietzahlungs-einkommensnachweis_white.png"
+                  alt=""
+                  width="32"
+                  height="32"
+                  data-image-field="emb_servicetiles_col_3_icon_url"
+                />
+              </div>
+              <h3 class="servicetiles-card__title" data-export-field="emb_servicetiles_col_3_title">Suchen+ f&uuml;r Kauf</h3>
+              <p class="module__body servicetiles-card__body" data-export-field="emb_servicetiles_col_3_description">Das Plus an Informationen</p>
+            </div>
+          </a>
+        </article>
+        <article class="servicetiles-card" data-export-item="service-card" data-export-index="4">
+          <a class="servicetiles-card__link" href="https://www.immobilienscout24.de/maklervergleich/" target="_blank" rel="noreferrer" data-export-url-field="emb_servicetiles_col_4_url">
+            <div class="servicetiles-card__panel">
+              <div class="servicetiles-card__header">
+                <img
+                  class="servicetiles-card__icon"
+                  src="https://d15k2d11r6t6rl.cloudfront.net/pub/bfra/tgru1zsx/62q/092/p9h/user_tie_white.png"
+                  alt=""
+                  width="32"
+                  height="32"
+                  data-image-field="emb_servicetiles_col_4_icon_url"
+                />
+              </div>
+              <h3 class="servicetiles-card__title" data-export-field="emb_servicetiles_col_4_title">Makler finden</h3>
+              <p class="module__body servicetiles-card__body" data-export-field="emb_servicetiles_col_4_description">Passenden Profi finden</p>
+            </div>
+          </a>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULE: teaser-2col-listing | SNIPPET: emb_teaser_2col_listing -->
+<section class="module theme-gray" data-module="teaser-2col-listing" data-snippet="emb_teaser_2col_listing">
+  <div class="module__inner">
+    <div class="stack">
+      <div class="module__head">
+        <h2 class="module__title module__title--medium" data-export-field="emb_teaser_2col_listing_headline" data-export-role="headline">Lorem ipsum dolor sit amet</h2>
+      </div>
+      <div class="listing-rows">
+        <article class="listing-row" data-export-item="teaser-2col-listing-item" data-export-index="1">
+          <div class="media media--listing">
+            <div
+              class="preview-image-placeholder preview-image-placeholder--4x3 preview-image-placeholder--pad-sm"
+              data-image-field="emb_teaser_2col_listing_col_1_image_url"
+              data-image-alt-field="emb_teaser_2col_listing_col_1_image_alt"
+            >
+              <div class="preview-image-placeholder__text">
+                <p class="preview-image-placeholder__meta">4:3 | 800 x 600 px</p>
+              </div>
+            </div>
+          </div>
+          <div class="listing-row__copy">
+            <p class="module__body" data-export-field="emb_teaser_2col_listing_col_1_body" data-export-role="item-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <a class="teaser-link" href="https://www.immobilienscout24.de" target="_blank" rel="noreferrer" data-token-attr-href="links.default_cta" data-export-field="emb_teaser_2col_listing_col_1_chevron_label" data-export-url-field="emb_teaser_2col_listing_col_1_chevron_url" data-export-role="item-link">Lorem ipsum</a>
+          </div>
+        </article>
+        <article class="listing-row" data-export-item="teaser-2col-listing-item" data-export-index="2">
+          <div class="media media--listing">
+            <div
+              class="preview-image-placeholder preview-image-placeholder--4x3 preview-image-placeholder--pad-sm"
+              data-image-field="emb_teaser_2col_listing_col_2_image_url"
+              data-image-alt-field="emb_teaser_2col_listing_col_2_image_alt"
+            >
+              <div class="preview-image-placeholder__text">
+                <p class="preview-image-placeholder__meta">4:3 | 800 x 600 px</p>
+              </div>
+            </div>
+          </div>
+          <div class="listing-row__copy">
+            <p class="module__body" data-export-field="emb_teaser_2col_listing_col_2_body" data-export-role="item-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <a class="teaser-link" href="https://www.immobilienscout24.de" target="_blank" rel="noreferrer" data-token-attr-href="links.default_cta" data-export-field="emb_teaser_2col_listing_col_2_chevron_label" data-export-url-field="emb_teaser_2col_listing_col_2_chevron_url" data-export-role="item-link">Lorem ipsum</a>
+          </div>
+        </article>
+        <article class="listing-row" data-export-item="teaser-2col-listing-item" data-export-index="3">
+          <div class="media media--listing">
+            <div
+              class="preview-image-placeholder preview-image-placeholder--4x3 preview-image-placeholder--pad-sm"
+              data-image-field="emb_teaser_2col_listing_col_3_image_url"
+              data-image-alt-field="emb_teaser_2col_listing_col_3_image_alt"
+            >
+              <div class="preview-image-placeholder__text">
+                <p class="preview-image-placeholder__meta">4:3 | 800 x 600 px</p>
+              </div>
+            </div>
+          </div>
+          <div class="listing-row__copy">
+            <p class="module__body" data-export-field="emb_teaser_2col_listing_col_3_body" data-export-role="item-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <a class="teaser-link" href="https://www.immobilienscout24.de" target="_blank" rel="noreferrer" data-token-attr-href="links.default_cta" data-export-field="emb_teaser_2col_listing_col_3_chevron_label" data-export-url-field="emb_teaser_2col_listing_col_3_chevron_url" data-export-role="item-link">Lorem ipsum</a>
+          </div>
+        </article>
+        <article class="listing-row" data-export-item="teaser-2col-listing-item" data-export-index="4">
+          <div class="media media--listing">
+            <div
+              class="preview-image-placeholder preview-image-placeholder--4x3 preview-image-placeholder--pad-sm"
+              data-image-field="emb_teaser_2col_listing_col_4_image_url"
+              data-image-alt-field="emb_teaser_2col_listing_col_4_image_alt"
+            >
+              <div class="preview-image-placeholder__text">
+                <p class="preview-image-placeholder__meta">4:3 | 800 x 600 px</p>
+              </div>
+            </div>
+          </div>
+          <div class="listing-row__copy">
+            <p class="module__body" data-export-field="emb_teaser_2col_listing_col_4_body" data-export-role="item-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
+            <a class="teaser-link" href="https://www.immobilienscout24.de" target="_blank" rel="noreferrer" data-token-attr-href="links.default_cta" data-export-field="emb_teaser_2col_listing_col_4_chevron_label" data-export-url-field="emb_teaser_2col_listing_col_4_chevron_url" data-export-role="item-link">Lorem ipsum</a>
+          </div>
+        </article>
+      </div>
+      <div class="module__cta-row is-hidden">
+        <a class="button-outline-strong" href="https://www.immobilienscout24.de" target="_blank" rel="noreferrer" data-token-attr-href="links.default_cta" data-export-field="emb_teaser_2col_listing_button_label" data-export-url-field="emb_teaser_2col_listing_button_url" data-export-role="cta">Mehr erfahren</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULE: footer | SNIPPET: emb_footer_marketing -->
+<footer class="module theme-white" data-module="footer" data-snippet="emb_footer_marketing">
+  <div class="module__inner module__inner--compact">
+    <div class="footer-marketing">
+      <p class="footer-marketing__headline">Kostenlose App herunterladen</p>
+      <div class="footer-marketing__badges">
+        <a class="footer-badge" href="https://itunes.apple.com/de/app/immobilienscout24/id342157367?mt=8" target="_blank" rel="noreferrer">
+          <img
+            class="footer-badge__image"
+            src="https://d15k2d11r6t6rl.cloudfront.net/pub/bfra/tgru1zsx/i36/uhu/m14/d1284a48-db27-4f3b-a434-ab9a625d0dd4.png"
+            alt="Download on the App Store"
+            width="115"
+            height="37"
+          />
+        </a>
+        <a class="footer-badge" href="https://play.google.com/store/apps/details?id=de.is24.android&hl=de" target="_blank" rel="noreferrer">
+          <img
+            class="footer-badge__image"
+            src="https://d15k2d11r6t6rl.cloudfront.net/pub/bfra/tgru1zsx/nrd/s3d/49k/b78e3fcd-6303-429c-a29d-691d73c0d01d.png"
+            alt="Get it on Google Play"
+            width="130"
+            height="37"
+          />
+        </a>
+      </div>
+      <div class="footer-marketing__copy">
+        <p class="footer-marketing__text">ImmoScout24 informiert ueber Aktuelles aus der Immobilienwelt. Wenn kein Interesse mehr besteht, ist es moeglich, sich <a href="#" target="_blank" rel="noreferrer">hier abzumelden</a>. Die Abmeldung betrifft nicht gegebenenfalls bestehende Suchauftragsbenachrichtigungen.</p>
+        <p class="footer-marketing__text">Immobilien Scout GmbH - Ein Unternehmen der Scout24-Gruppe, Invalidenstr. 65, 10557 Berlin · <a class="footer-marketing__plain-link" href="https://www.immobilienscout24.de" target="_blank" rel="noreferrer">immobilienscout24.de</a> · Geschaeftsfuehrung: Dr. Gesa Crockford, Daniel Hendel · Vorsitzender des Aufsichtsrats: Ralf Weitz · Handelsregister: Amtsgericht Charlottenburg, HRB 69108 · Sitz der Gesellschaft: Berlin · USt-IdNr. DE200269419</p>
+        <p class="footer-marketing__links">
+          <a href="https://www.immobilienscout24.de/agb/datenschutz.html" target="_blank" rel="noreferrer">Datenschutz</a><span class="footer-marketing__links-separator">|</span><a href="https://www.immobilienscout24.de/impressum.html" target="_blank" rel="noreferrer">Impressum</a>
+        </p>
+        <p class="footer-marketing__text">&copy; 1999 - 2026 Immobilien Scout GmbH</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </template>
+
+  <script>
+    const WHITE_HEX = "#FFFFFF";
+    const GRAY_HEX = "#F5F5F5";
+    const HERO_MODULES = new Set([
+      "hero-image-top",
+      "hero-image-top-center",
+      "hero-image-top-bleed",
+      "hero-image-top-bleed-center",
+      "hero-image-head-copy-bleed-center",
+      "hero-image-textbox-cta-center",
+      "hero-cta-top",
+      "hero-cta-top-center",
+      "hero-cta-top-no-bottom",
+      "hero-cta-top-no-bottom-center"
+    ]);
+    const FIXED_WHITE_MODULES = new Set(["logo", "logo-centered", "contact", "footer"]);
+
+    const state = JSON.parse(document.getElementById("email-state").textContent);
+    const registry = document.getElementById("module-registry").content;
+    const moduleSlot = document.querySelector("[data-preview-module-slot]");
+    const debugOutput = document.querySelector("[data-debug-output]");
+
+    document.querySelector("[data-preview-subject-text]").textContent = state.subject;
+    document.querySelector("[data-preview-preheader-text]").textContent = state.preheader;
+
+    const normalizedModules = state.modules.map((module) => {
+      const next = structuredClone(module);
+      if (module.module_id === "hero-image-top") {
+        const sizeField = "emb_hero_image_top_headline_size";
+        const smallField = "emb_hero_image_top_show_small_headline";
+        const largeField = "emb_hero_image_top_show_large_headline";
+        const size = module.content[sizeField] || "l";
+        next.content[sizeField] = size;
+        next.content[smallField] = size === "s" ? "true" : "false";
+        next.content[largeField] = size === "l" ? "true" : "false";
+      }
+      return next;
+    });
+
+    resolveBackgroundRhythm(normalizedModules);
+
+    normalizedModules.forEach((module) => {
+      const block = cloneCanonicalModule(module.module_id);
+      applyModuleContent(block, module.content || {});
+      applyHeroHeadlineSize(block, module.content || {});
+      moduleSlot.appendChild(block);
+    });
+
+    syncRenderedModuleThemes(normalizedModules);
+    const structureChecks = validateRenderedStructure();
+
+    debugOutput.textContent = [
+      "Renderer-Prototyp erfolgreich aufgebaut.",
+      "",
+      "Kanonische Registry-Quelle: eingebettete 1:1-Auswahl aus agent/preview-modules.html",
+      "HTML-Aufbau: nur cloneNode aus Registry, kein freier Modul-String-Bau",
+      "Gerenderte Module: " + normalizedModules.map((module) => module.module_id).join(" -> "),
+      "",
+      "Resolved backgrounds:",
+      ...normalizedModules.map((module) => {
+        const bg = module.meta && module.meta.resolved_bg_color ? module.meta.resolved_bg_color : "(none)";
+        return "- " + module.module_id + ": " + bg;
+      }),
+      "",
+      "Strukturchecks:",
+      ...structureChecks.map((entry) => "- " + entry)
+    ].join("\n");
+
+    function cloneCanonicalModule(moduleId) {
+      const source = registry.querySelector(`[data-module="${moduleId}"]`);
+      if (!source) {
+        throw new Error(`Kein kanonischer Modulblock fuer ${moduleId} gefunden.`);
+      }
+      return source.cloneNode(true);
+    }
+
+    function applyModuleContent(moduleEl, content) {
+      moduleEl.querySelectorAll("[data-export-field]").forEach((node) => {
+        const field = node.getAttribute("data-export-field");
+        if (!(field in content)) {
+          return;
+        }
+        const value = content[field];
+        if (node.getAttribute("data-export-role") === "richtext") {
+          applyRichtextValue(node, value);
+          return;
+        }
+        node.textContent = String(value);
+      });
+
+      moduleEl.querySelectorAll("[data-export-url-field]").forEach((node) => {
+        const field = node.getAttribute("data-export-url-field");
+        if (field in content) {
+          node.setAttribute("href", String(content[field]));
+        }
+      });
+
+      moduleEl.querySelectorAll("[data-image-field]").forEach((node) => {
+        const field = node.getAttribute("data-image-field");
+        if (!(field in content)) {
+          return;
+        }
+        const value = String(content[field]);
+        if (node.tagName === "IMG") {
+          node.setAttribute("src", value);
+        }
+      });
+    }
+
+    function applyRichtextValue(node, value) {
+      const paragraphs = [...node.querySelectorAll('[data-export-role="body-paragraph"]')];
+      if (!paragraphs.length) {
+        return;
+      }
+      if (Array.isArray(value)) {
+        value.forEach((entry, index) => {
+          if (paragraphs[index]) {
+            paragraphs[index].textContent = String(entry);
+          }
+        });
+        return;
+      }
+      paragraphs[0].textContent = String(value);
+    }
+
+    function applyHeroHeadlineSize(moduleEl, content) {
+      moduleEl.querySelectorAll("[data-preview-size-field]").forEach((headline) => {
+        const sizeField = headline.getAttribute("data-preview-size-field");
+        const size = content[sizeField] || "l";
+        const smallClass = headline.getAttribute("data-preview-size-small-class");
+        const largeClass = headline.getAttribute("data-preview-size-large-class");
+        const invalidClass = headline.getAttribute("data-preview-size-invalid-class");
+        [smallClass, largeClass, invalidClass].filter(Boolean).forEach((className) => {
+          headline.classList.remove(className);
+        });
+        if (size === "s" && smallClass) {
+          headline.classList.add(smallClass);
+        } else if (size === "l" && largeClass) {
+          headline.classList.add(largeClass);
+        } else if (size !== "m" && invalidClass) {
+          headline.classList.add(invalidClass);
+        }
+      });
+    }
+
+    function resolveBackgroundRhythm(modules) {
+      let contentIndex = 0;
+      let lastHeroId = null;
+
+      modules.forEach((module) => {
+        const meta = module.meta || {};
+        if (HERO_MODULES.has(module.module_id)) {
+          meta.resolved_bg_color = WHITE_HEX;
+          lastHeroId = module.module_id;
+        } else if (FIXED_WHITE_MODULES.has(module.module_id)) {
+          meta.resolved_bg_color = WHITE_HEX;
+        } else {
+          const startsWhite = lastHeroId === "hero-cta-top-no-bottom";
+          const isWhite = startsWhite ? contentIndex % 2 === 0 : contentIndex % 2 === 1;
+          meta.resolved_bg_color = isWhite ? WHITE_HEX : GRAY_HEX;
+          contentIndex += 1;
+        }
+        module.meta = meta;
+      });
+    }
+
+    function syncRenderedModuleThemes(modules) {
+      modules.forEach((module, index) => {
+        const block = moduleSlot.children[index];
+        if (!block) {
+          return;
+        }
+        syncThemeClass(block, module.meta.resolved_bg_color);
+      });
+    }
+
+    function syncThemeClass(block, hexColor) {
+      block.classList.remove("theme-white", "theme-gray");
+      block.classList.add(hexColor === WHITE_HEX ? "theme-white" : "theme-gray");
+      block.setAttribute("data-rendered-bg-color", hexColor);
+    }
+
+    function validateRenderedStructure() {
+      const checks = [];
+      const renderedModules = [...moduleSlot.querySelectorAll("[data-module]")];
+      const renderedModuleIds = renderedModules.map((node) => node.getAttribute("data-module"));
+      checks.push(
+        renderedModuleIds.join(" -> ") === normalizedModules.map((module) => module.module_id).join(" -> ")
+          ? "Modulreihenfolge stimmt mit email_state ueberein."
+          : "WARNUNG: Modulreihenfolge weicht vom email_state ab."
+      );
+
+      const serviceCards = moduleSlot.querySelectorAll('[data-module="servicetiles"] .servicetiles-card').length;
+      checks.push(
+        serviceCards === 4
+          ? "servicetiles rendert 4 vollstaendige Cards."
+          : `WARNUNG: servicetiles rendert ${serviceCards} Cards statt 4.`
+      );
+
+      const listingRows = moduleSlot.querySelectorAll('[data-module="teaser-2col-listing"] .listing-row').length;
+      checks.push(
+        listingRows === 4
+          ? "teaser-2col-listing behaelt 4 Listing-Zeilen."
+          : `WARNUNG: teaser-2col-listing rendert ${listingRows} Listing-Zeilen statt 4.`
+      );
+
+      const listingMedia = moduleSlot.querySelectorAll('[data-module="teaser-2col-listing"] .media.media--listing').length;
+      checks.push(
+        listingMedia === 4
+          ? "Responsive Listing-Wrapper sind vollstaendig vorhanden."
+          : `WARNUNG: nur ${listingMedia} Listing-Media-Wrapper gefunden.`
+      );
+
+      const footerCopy = moduleSlot.querySelector('[data-module="footer"] .footer-marketing__copy');
+      checks.push(
+        footerCopy
+          ? "Footer bleibt als vollstaendiger Strukturblock erhalten."
+          : "WARNUNG: Footer-Copy-Block fehlt."
+      );
+
+      const heroHeadline = moduleSlot.querySelector('[data-module="hero-image-top"] [data-preview-size-field]');
+      checks.push(
+        heroHeadline && heroHeadline.classList.contains("module__title--hero-large")
+          ? "Hero-Headline-Default l ist sichtbar materialisiert."
+          : "WARNUNG: Hero-Headline-Default l ist nicht korrekt materialisiert."
+      );
+
+      return checks;
+    }
+  </script>
+</body>
+</html>

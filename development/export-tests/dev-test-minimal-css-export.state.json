@@ -1,0 +1,69 @@
+{
+  "campaignId": null,
+  "templateId": null,
+  "previewBranchKey": null,
+  "templateContext": {
+    "mode": "default_template",
+    "resolvedBaseTemplateId": "569946",
+    "compositionTemplateId": null,
+    "iterableTemplateId": null
+  },
+  "salutationContext": "generic",
+  "subject": "Dev-Test Minimal CSS Export",
+  "preheader": "Diagnosemail zum Vergleich voller gegen minimale Template-CSS-Shell.",
+  "modules": [
+    {
+      "instance_id": "logo-1",
+      "module_id": "logo",
+      "snippet_name": "emb_logo",
+      "content": {}
+    },
+    {
+      "instance_id": "hero-image-top-1",
+      "module_id": "hero-image-top",
+      "snippet_name": "emb_hero_image_top",
+      "content": {
+        "emb_hero_image_top_bg_color": "#FFFFFF",
+        "emb_hero_image_top_show_preheadline": true,
+        "emb_hero_image_top_preheadline": "Dev Export Test",
+        "emb_hero_image_top_show_badge": false,
+        "emb_hero_image_top_show_small_headline": false,
+        "emb_hero_image_top_show_large_headline": true,
+        "emb_hero_image_top_headline": "Kleine Testmail fuer den Minimal-CSS-Vergleich",
+        "emb_hero_image_top_image_url": "https://library.eu.iterable.com/33/98/b9799c74eec5412c8fb0c995dd52f19c-emb_placeholder_16x9.png",
+        "emb_hero_image_top_image_alt": "",
+        "emb_hero_image_top_show_salutation": true,
+        "emb_hero_image_top_use_snippetcall_salutation": false,
+        "emb_hero_image_top_salutation": "Hallo Anrede,",
+        "emb_hero_image_top_body": "<p>Diese Diagnosemail nutzt bewusst nur wenige Module, damit die Shell-Groesse der zentrale Testfaktor bleibt.</p>",
+        "emb_hero_image_top_button_url": "https://www.immobilienscout24.de/",
+        "emb_hero_image_top_button_bg_color": "#74FFDF",
+        "emb_hero_image_top_button_border_color": "#74FFDF",
+        "emb_hero_image_top_button_label": "Zum Vergleich"
+      }
+    },
+    {
+      "instance_id": "teaser-1col-1",
+      "module_id": "teaser-1col",
+      "snippet_name": "emb_teaser_1col",
+      "content": {
+        "emb_teaser_1col_bg_color": "#FFFFFF",
+        "emb_teaser_1col_headline": "Reduzierte Testkomposition",
+        "emb_teaser_1col_image_link_url": "https://www.immobilienscout24.de/",
+        "emb_teaser_1col_image_url": "https://library.eu.iterable.com/33/98/b9799c74eec5412c8fb0c995dd52f19c-emb_placeholder_16x9.png",
+        "emb_teaser_1col_image_alt": "",
+        "emb_teaser_1col_body": "<p>Wenn der Export mit dieser Shell spuerbar schneller ist, ist die Template-CSS-Shell ein belastbarer Performance-Kandidat.</p>",
+        "emb_teaser_1col_button_url": "https://www.immobilienscout24.de/",
+        "emb_teaser_1col_button_bg_color": "#FFFFFF",
+        "emb_teaser_1col_button_border_color": "#333333",
+        "emb_teaser_1col_button_label": "Weiter pruefen"
+      }
+    },
+    {
+      "instance_id": "footer-1",
+      "module_id": "footer",
+      "snippet_name": "emb_footer_marketing",
+      "content": {}
+    }
+  ]
+}
