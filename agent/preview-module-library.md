@@ -930,7 +930,7 @@ Regeln:
 
 - Snippet: `emb_contact`
 - Preview-Quelle: `preview-modules.html`, Block `data-module="contact"`
-- Das Modul bleibt immer auf weissem Hintergrund und nimmt nicht an der Hintergrund-Alternierung teil.
+- Das Contact-Modul verwendet `emb_contact_bg_color` und nimmt am bestehenden Hintergrund-Rhythmus teil: Weiss `#FFFFFF` oder Grau `#F5F5F5`. Das Feld ist ein technischer Hintergrundwert, kein freies CSS-Feld; Fallback `#FFFFFF`. Die uebrigen zwoelf Snippet-Parameter bleiben erhalten.
 - Sichtbare Felder:
   - Bild-URL
   - Bild-Alt

@@ -182,8 +182,8 @@ Nutze beim allerersten Start genau diese Reihenfolge:
   - weiss / white = `#FFFFFF` aus `--surface-white`
   - grau / gray = `#F5F5F5` aus `--surface-gray`
 - Alle Hero-Varianten haben immer weissen Hintergrund.
-- `logo`, `footer`, `contact` und `contact-signoff` haben immer weissen Hintergrund.
-- `logo`, `footer`, `contact` und `contact-signoff` sind feste Struktur-/Utility-Module und nehmen nicht an der Hintergrund-Alternierung teil.
+- `logo`, `footer` und `contact-signoff` haben immer weissen Hintergrund.
+- `logo`, `footer` und `contact-signoff` sind feste Struktur-/Utility-Module und nehmen nicht an der Hintergrund-Alternierung teil. `contact` verwendet wie andere Content-Module den positionsabhaengigen Hintergrund-Rhythmus.
 - Footer hat immer weissen Hintergrund.
 - Standardfall:
   - Das erste Modul nach dem Hero hat immer grauen Hintergrund.
@@ -1086,7 +1086,8 @@ Bewusst nicht angebunden:
 ### `contact`
 
 - Die Contact-Preview wird direkt ueber den strukturierten `email_state` in den Contact-Snippet-Call uebersetzt.
-- `contact` hat immer weissen Hintergrund und nutzt kein editierbares oder alternierendes `bg_color`-Feld.
+- `contact` verwendet `emb_contact_bg_color` fuer den Modulhintergrund: konkrete Hexwerte `#FFFFFF` oder `#F5F5F5` nach dem verbindlichen Hintergrund-Rhythmus; technischer Fallback ist `#FFFFFF`.
+- Der Snippet-Vertrag umfasst 13 Parameter: zuerst `emb_contact_bg_color`, danach die zwoelf bisherigen Contact-Felder in unveraenderter Reihenfolge. Der Avatar-Placeholder behaelt unabhaengig davon `#EAEAEA`.
 - Das Contact-Modul nutzt an der bestehenden Placeholder-Position optional genau diese Bildfelder:
   - `emb_contact_show_image`
   - `emb_contact_image_url`

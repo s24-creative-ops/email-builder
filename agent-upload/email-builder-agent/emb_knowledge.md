@@ -1104,8 +1104,8 @@ Nutze beim allerersten Start genau diese Reihenfolge:
   - weiss / white = `#FFFFFF` aus `--surface-white`
   - grau / gray = `#F5F5F5` aus `--surface-gray`
 - Alle Hero-Varianten haben immer weissen Hintergrund.
-- `logo`, `footer`, `contact` und `contact-signoff` haben immer weissen Hintergrund.
-- `logo`, `footer`, `contact` und `contact-signoff` sind feste Struktur-/Utility-Module und nehmen nicht an der Hintergrund-Alternierung teil.
+- `logo`, `footer` und `contact-signoff` haben immer weissen Hintergrund.
+- `logo`, `footer` und `contact-signoff` sind feste Struktur-/Utility-Module und nehmen nicht an der Hintergrund-Alternierung teil. `contact` verwendet wie andere Content-Module den positionsabhaengigen Hintergrund-Rhythmus.
 - Footer hat immer weissen Hintergrund.
 - Standardfall:
   - Das erste Modul nach dem Hero hat immer grauen Hintergrund.
@@ -2008,7 +2008,8 @@ Bewusst nicht angebunden:
 ### `contact`
 
 - Die Contact-Preview wird direkt ueber den strukturierten `email_state` in den Contact-Snippet-Call uebersetzt.
-- `contact` hat immer weissen Hintergrund und nutzt kein editierbares oder alternierendes `bg_color`-Feld.
+- `contact` verwendet `emb_contact_bg_color` fuer den Modulhintergrund: konkrete Hexwerte `#FFFFFF` oder `#F5F5F5` nach dem verbindlichen Hintergrund-Rhythmus; technischer Fallback ist `#FFFFFF`.
+- Der Snippet-Vertrag umfasst 13 Parameter: zuerst `emb_contact_bg_color`, danach die zwoelf bisherigen Contact-Felder in unveraenderter Reihenfolge. Der Avatar-Placeholder behaelt unabhaengig davon `#EAEAEA`.
 - Das Contact-Modul nutzt an der bestehenden Placeholder-Position optional genau diese Bildfelder:
   - `emb_contact_show_image`
   - `emb_contact_image_url`
@@ -2122,7 +2123,8 @@ Die uebrigen operativen Agent-Dateien liegen direkt daneben in `agent/`.
 - Required `*_bg_color` Felder muessen im `email_state.content` bereits als konkrete produktive Hexwerte vorliegen.
 - Preview-Klassen wie `theme-white`, `theme-gray` oder andere semantische Rhythmus-Marker sind als Exportwerte fuer `*_bg_color` unzulaessig.
 - Wenn ein required `*_bg_color` im `email_state` nicht als konkreter Hexwert aus der verbindlichen Rhythmus-Farbquelle vorliegt, ist das ein lokaler State-Fehler und der Export stoppt vor jedem Write.
-- `logo`, `footer`, `contact` und `contact-signoff` sind feste weisse Struktur-/Utility-Module; sie nehmen nicht an der Hintergrund-Alternierung teil und `contact` sowie `contact-signoff` exportieren deshalb kein `bg_color`-Feld.
+- `logo`, `footer` und `contact-signoff` sind feste weisse Struktur-/Utility-Module und nehmen nicht an der Hintergrund-Alternierung teil. `contact-signoff` exportiert kein `bg_color`-Feld.
+- `contact` nimmt am Hintergrund-Rhythmus teil und exportiert `emb_contact_bg_color` als ersten seiner 13 Parameter. Erlaubt sind konkrete Hexwerte `#FFFFFF` und `#F5F5F5`; Fallback `#FFFFFF`. Die zwoelf bisherigen Contact-Parameter folgen in unveraenderter Reihenfolge.
 - Normale Text-Felder im `email_state.content` enthalten Plain Text.
 - Salutation-/Anredezeilen sind eigene kurze Textkontexte vor einem nachfolgenden Body und duerfen nicht im HTML-Fragment eines `rich_full`-Feldes mitgefuehrt werden.
 - Salutation-/Anredezeilen duerfen keine Listen enthalten und sind im Feldtyp nur Plain Text oder hoechstens `rich_inline`, niemals `rich_full`.
@@ -5540,6 +5542,12 @@ Dateityp: json
       "snippet_name": "emb_contact",
       "fields": [
         {
+          "name": "emb_contact_bg_color",
+          "type": "color",
+          "required": true,
+          "default": "#FFFFFF"
+        },
+        {
           "name": "emb_contact_show_image",
           "type": "boolean",
           "required": true,
@@ -7655,7 +7663,7 @@ Regeln:
 
 - Snippet: `emb_contact`
 - Preview-Quelle: `preview-modules.html`, Block `data-module="contact"`
-- Das Modul bleibt immer auf weissem Hintergrund und nimmt nicht an der Hintergrund-Alternierung teil.
+- Das Contact-Modul verwendet `emb_contact_bg_color` und nimmt am bestehenden Hintergrund-Rhythmus teil: Weiss `#FFFFFF` oder Grau `#F5F5F5`. Das Feld ist ein technischer Hintergrundwert, kein freies CSS-Feld; Fallback `#FFFFFF`. Die uebrigen zwoelf Snippet-Parameter bleiben erhalten.
 - Sichtbare Felder:
   - Bild-URL
   - Bild-Alt

@@ -95,7 +95,8 @@ Die uebrigen operativen Agent-Dateien liegen direkt daneben in `agent/`.
 - Required `*_bg_color` Felder muessen im `email_state.content` bereits als konkrete produktive Hexwerte vorliegen.
 - Preview-Klassen wie `theme-white`, `theme-gray` oder andere semantische Rhythmus-Marker sind als Exportwerte fuer `*_bg_color` unzulaessig.
 - Wenn ein required `*_bg_color` im `email_state` nicht als konkreter Hexwert aus der verbindlichen Rhythmus-Farbquelle vorliegt, ist das ein lokaler State-Fehler und der Export stoppt vor jedem Write.
-- `logo`, `footer`, `contact` und `contact-signoff` sind feste weisse Struktur-/Utility-Module; sie nehmen nicht an der Hintergrund-Alternierung teil und `contact` sowie `contact-signoff` exportieren deshalb kein `bg_color`-Feld.
+- `logo`, `footer` und `contact-signoff` sind feste weisse Struktur-/Utility-Module und nehmen nicht an der Hintergrund-Alternierung teil. `contact-signoff` exportiert kein `bg_color`-Feld.
+- `contact` nimmt am Hintergrund-Rhythmus teil und exportiert `emb_contact_bg_color` als ersten seiner 13 Parameter. Erlaubt sind konkrete Hexwerte `#FFFFFF` und `#F5F5F5`; Fallback `#FFFFFF`. Die zwoelf bisherigen Contact-Parameter folgen in unveraenderter Reihenfolge.
 - Normale Text-Felder im `email_state.content` enthalten Plain Text.
 - Salutation-/Anredezeilen sind eigene kurze Textkontexte vor einem nachfolgenden Body und duerfen nicht im HTML-Fragment eines `rich_full`-Feldes mitgefuehrt werden.
 - Salutation-/Anredezeilen duerfen keine Listen enthalten und sind im Feldtyp nur Plain Text oder hoechstens `rich_inline`, niemals `rich_full`.

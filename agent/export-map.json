@@ -2997,6 +2997,12 @@
       "snippet_name": "emb_contact",
       "fields": [
         {
+          "name": "emb_contact_bg_color",
+          "type": "color",
+          "required": true,
+          "default": "#FFFFFF"
+        },
+        {
           "name": "emb_contact_show_image",
           "type": "boolean",
           "required": true,
