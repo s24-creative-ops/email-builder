@@ -124,6 +124,7 @@ Regeln:
 - `teaser-2col-alternating`
   - `emb_teaser_2col_alternating_col_1_image_url`
   - `emb_teaser_2col_alternating_col_2_image_url`
+  - `emb_teaser_2col_alternating_col_3_image_url`
 - `teaser-2col-listing`
   - `emb_teaser_2col_listing_col_1_image_url`
   - `emb_teaser_2col_listing_col_2_image_url`
@@ -825,8 +826,9 @@ Regeln:
   - Headline
   - erste Zeile: Bild-URL, Bild-Alt, Body, Link-Label, Link-URL
   - zweite Zeile: Bild-URL, Bild-Alt, Body, Link-Label, Link-URL
+- Optional ueber `emb_teaser_2col_alternating_show_item_3` (Default `false`): dritte Zeile mit Bild links und Text rechts; dieselben fuenf Inhaltsfelder unter `col_3_*`.
 - Bildformat in der Preview: `4:3 | 800 x 600 px` pro Zeile
-- Fuellhinweis: die feste zweizeilige Alternating-Struktur beibehalten
+- Fuellhinweis: zwei feste Zeilen erhalten; ausschliesslich die vorhandene dritte Zeile per Flag ein-/ausblenden. Bei `false` die dritte `article`-Instanz mit `is-hidden` verbergen; bei `true` diese Klasse entfernen. Genau eine Headline. Snippet-Aufrufe immer mit allen 18 dokumentierten Parametern uebergeben.
 
 ### `teaser-2col-listing`
 

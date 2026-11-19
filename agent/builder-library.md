@@ -970,7 +970,7 @@ Bewusst nicht angebunden:
 - Die finale EMB-Preview materialisiert die Teaser-Headline im Markup explizit als `font-heading-large-bold`, damit die bestehende `heading-l`-Typografie ohne groessere Hero-/XL-Klassen im Preview-Pfad landet.
 - `teaser-2col-horizontal` nutzt bis zu vier Items; `show_item_2..4` folgen exakt der sichtbaren Item-Anzahl.
 - `teaser-2col-vertical` nutzt genau zwei Spalten.
-- `teaser-2col-alternating` nutzt genau zwei Zeilen.
+- `teaser-2col-alternating` hat zwei feste Zeilen und optional eine dritte Zeile ueber `emb_teaser_2col_alternating_show_item_3` (Default `false`). Bildfolge links/rechts/links; genau ein Modul und eine Headline. Die ersten beiden Zeilen bleiben verpflichtend, weitere Zeilen sind nicht erlaubt.
 - `teaser-2col-listing` nutzt bis zu vier Items; sichtbare spaetere Zeilen duerfen nie auf `col_1_*` reduziert werden.
 - `teaser-2col-gallery` nutzt immer zwei Bilder in der ersten Reihe; `show_item_3` und `show_item_4` erweitern die untere Reihe.
 - `teaser-2col-gallery` erlaubt zusaetzlich `hide_bottom_row_mobile`; damit verschwindet die untere Reihe nur in der mobilen Ausgabe.
@@ -1027,7 +1027,7 @@ Bewusst nicht angebunden:
 - `teaser-1col` behaelt Bild, Richtextbereich und CTA.
 - `teaser-2col-horizontal` nutzt bis zu vier Items; `show_item_2..4` folgen exakt der sichtbaren Item-Anzahl.
 - `teaser-2col-vertical` nutzt genau zwei Spalten.
-- `teaser-2col-alternating` nutzt genau zwei Zeilen.
+- `teaser-2col-alternating` hat zwei feste Zeilen und optional eine dritte Zeile ueber `emb_teaser_2col_alternating_show_item_3` (Default `false`). Bildfolge links/rechts/links; genau ein Modul und eine Headline. Die ersten beiden Zeilen bleiben verpflichtend, weitere Zeilen sind nicht erlaubt.
 - `teaser-2col-listing` nutzt bis zu vier Items; sichtbare spaetere Zeilen duerfen nie auf `col_1_*` reduziert werden.
 - `teaser-2col-gallery` nutzt immer zwei Bilder in der ersten Reihe; `show_item_3` und `show_item_4` erweitern die untere Reihe.
 - `teaser-2col-gallery` erlaubt zusaetzlich `hide_bottom_row_mobile`; damit verschwindet die untere Reihe nur in der mobilen Ausgabe.
@@ -1097,3 +1097,17 @@ Bewusst nicht angebunden:
 ### `footer`
 
 - `emb_footer_marketing` bleibt im Minimal-Setup parameterlos.
+
+### Optional dritte Zeile fuer `teaser-2col-alternating`
+
+- Der Snippet-Vertrag umfasst 18 Parameter: die bisherigen zwoelf unveraendert, danach in dieser Reihenfolge:
+  - `emb_teaser_2col_alternating_show_item_3`
+  - `emb_teaser_2col_alternating_col_3_image_url`
+  - `emb_teaser_2col_alternating_col_3_image_alt`
+  - `emb_teaser_2col_alternating_col_3_body`
+  - `emb_teaser_2col_alternating_col_3_chevron_url`
+  - `emb_teaser_2col_alternating_col_3_chevron_label`
+- Alle 18 Parameter bei jedem Snippet-Aufruf uebergeben, auch bei ausgeblendeter dritter Zeile. `show_item_3` ist ein echter Boolean; bei `false` bleiben die fuenf dritten Inhaltswerte dokumentierte Defaults oder leere Strings. Bei `true` muessen Body, Link-URL und Link-Label sinnvoll befuellt sein. Bilder im vorhandenen 4:3-Slot nach den uebrigen Bildregeln. Kein vierter Eintrag.
+- In der Web-Preview das technische Flag materialisieren; die dritte vorhandene `article`-Instanz nur bei `true` aus `is-hidden` nehmen. Keine neue DOM-Struktur oder freie Modulzeile erzeugen.
+- E-Mail: die neue Zeile verwendet dieselbe Tabellenstruktur wie Zeile 1. Fuer die mobile dritte Zeile werden die bereits in `template-main.html` vorhandenen horizontalen Padding-Helper wiederverwendet; kein weiteres Modul und keine Shell-CSS-Aenderung.
+- Vor Verwendung in Iterable muessen das aktualisierte Snippet-HTML und die sechs zusaetzlichen Variablen installiert sein. Die alte installierte 12-Parameter-Signatur ist damit nicht kompatibel.

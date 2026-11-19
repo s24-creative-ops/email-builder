@@ -1892,7 +1892,7 @@ Bewusst nicht angebunden:
 - Die finale EMB-Preview materialisiert die Teaser-Headline im Markup explizit als `font-heading-large-bold`, damit die bestehende `heading-l`-Typografie ohne groessere Hero-/XL-Klassen im Preview-Pfad landet.
 - `teaser-2col-horizontal` nutzt bis zu vier Items; `show_item_2..4` folgen exakt der sichtbaren Item-Anzahl.
 - `teaser-2col-vertical` nutzt genau zwei Spalten.
-- `teaser-2col-alternating` nutzt genau zwei Zeilen.
+- `teaser-2col-alternating` hat zwei feste Zeilen und optional eine dritte Zeile ueber `emb_teaser_2col_alternating_show_item_3` (Default `false`). Bildfolge links/rechts/links; genau ein Modul und eine Headline. Die ersten beiden Zeilen bleiben verpflichtend, weitere Zeilen sind nicht erlaubt.
 - `teaser-2col-listing` nutzt bis zu vier Items; sichtbare spaetere Zeilen duerfen nie auf `col_1_*` reduziert werden.
 - `teaser-2col-gallery` nutzt immer zwei Bilder in der ersten Reihe; `show_item_3` und `show_item_4` erweitern die untere Reihe.
 - `teaser-2col-gallery` erlaubt zusaetzlich `hide_bottom_row_mobile`; damit verschwindet die untere Reihe nur in der mobilen Ausgabe.
@@ -1949,7 +1949,7 @@ Bewusst nicht angebunden:
 - `teaser-1col` behaelt Bild, Richtextbereich und CTA.
 - `teaser-2col-horizontal` nutzt bis zu vier Items; `show_item_2..4` folgen exakt der sichtbaren Item-Anzahl.
 - `teaser-2col-vertical` nutzt genau zwei Spalten.
-- `teaser-2col-alternating` nutzt genau zwei Zeilen.
+- `teaser-2col-alternating` hat zwei feste Zeilen und optional eine dritte Zeile ueber `emb_teaser_2col_alternating_show_item_3` (Default `false`). Bildfolge links/rechts/links; genau ein Modul und eine Headline. Die ersten beiden Zeilen bleiben verpflichtend, weitere Zeilen sind nicht erlaubt.
 - `teaser-2col-listing` nutzt bis zu vier Items; sichtbare spaetere Zeilen duerfen nie auf `col_1_*` reduziert werden.
 - `teaser-2col-gallery` nutzt immer zwei Bilder in der ersten Reihe; `show_item_3` und `show_item_4` erweitern die untere Reihe.
 - `teaser-2col-gallery` erlaubt zusaetzlich `hide_bottom_row_mobile`; damit verschwindet die untere Reihe nur in der mobilen Ausgabe.
@@ -2019,6 +2019,20 @@ Bewusst nicht angebunden:
 ### `footer`
 
 - `emb_footer_marketing` bleibt im Minimal-Setup parameterlos.
+
+### Optional dritte Zeile fuer `teaser-2col-alternating`
+
+- Der Snippet-Vertrag umfasst 18 Parameter: die bisherigen zwoelf unveraendert, danach in dieser Reihenfolge:
+  - `emb_teaser_2col_alternating_show_item_3`
+  - `emb_teaser_2col_alternating_col_3_image_url`
+  - `emb_teaser_2col_alternating_col_3_image_alt`
+  - `emb_teaser_2col_alternating_col_3_body`
+  - `emb_teaser_2col_alternating_col_3_chevron_url`
+  - `emb_teaser_2col_alternating_col_3_chevron_label`
+- Alle 18 Parameter bei jedem Snippet-Aufruf uebergeben, auch bei ausgeblendeter dritter Zeile. `show_item_3` ist ein echter Boolean; bei `false` bleiben die fuenf dritten Inhaltswerte dokumentierte Defaults oder leere Strings. Bei `true` muessen Body, Link-URL und Link-Label sinnvoll befuellt sein. Bilder im vorhandenen 4:3-Slot nach den uebrigen Bildregeln. Kein vierter Eintrag.
+- In der Web-Preview das technische Flag materialisieren; die dritte vorhandene `article`-Instanz nur bei `true` aus `is-hidden` nehmen. Keine neue DOM-Struktur oder freie Modulzeile erzeugen.
+- E-Mail: die neue Zeile verwendet dieselbe Tabellenstruktur wie Zeile 1. Fuer die mobile dritte Zeile werden die bereits in `template-main.html` vorhandenen horizontalen Padding-Helper wiederverwendet; kein weiteres Modul und keine Shell-CSS-Aenderung.
+- Vor Verwendung in Iterable muessen das aktualisierte Snippet-HTML und die sechs zusaetzlichen Variablen installiert sein. Die alte installierte 12-Parameter-Signatur ist damit nicht kompatibel.
 ```
 
 ## email-builder/agent/export-rules.md
@@ -4665,6 +4679,42 @@ Dateityp: json
           "type": "text",
           "required": true,
           "default": ""
+        },
+        {
+          "name": "emb_teaser_2col_alternating_show_item_3",
+          "type": "boolean",
+          "required": true,
+          "default": false
+        },
+        {
+          "name": "emb_teaser_2col_alternating_col_3_image_url",
+          "type": "image_url",
+          "required": false,
+          "default": "https://library.eu.iterable.com/33/98/15fd5a27e1b04e209135462087d1e3bd-emb_placeholder_4x3.png"
+        },
+        {
+          "name": "emb_teaser_2col_alternating_col_3_image_alt",
+          "type": "text",
+          "required": false,
+          "default": ""
+        },
+        {
+          "name": "emb_teaser_2col_alternating_col_3_body",
+          "type": "rich_inline",
+          "required": false,
+          "default": ""
+        },
+        {
+          "name": "emb_teaser_2col_alternating_col_3_chevron_url",
+          "type": "url",
+          "required": false,
+          "default": ""
+        },
+        {
+          "name": "emb_teaser_2col_alternating_col_3_chevron_label",
+          "type": "text",
+          "required": false,
+          "default": ""
         }
       ]
     },
@@ -6857,6 +6907,7 @@ Regeln:
 - `teaser-2col-alternating`
   - `emb_teaser_2col_alternating_col_1_image_url`
   - `emb_teaser_2col_alternating_col_2_image_url`
+  - `emb_teaser_2col_alternating_col_3_image_url`
 - `teaser-2col-listing`
   - `emb_teaser_2col_listing_col_1_image_url`
   - `emb_teaser_2col_listing_col_2_image_url`
@@ -7558,8 +7609,9 @@ Regeln:
   - Headline
   - erste Zeile: Bild-URL, Bild-Alt, Body, Link-Label, Link-URL
   - zweite Zeile: Bild-URL, Bild-Alt, Body, Link-Label, Link-URL
+- Optional ueber `emb_teaser_2col_alternating_show_item_3` (Default `false`): dritte Zeile mit Bild links und Text rechts; dieselben fuenf Inhaltsfelder unter `col_3_*`.
 - Bildformat in der Preview: `4:3 | 800 x 600 px` pro Zeile
-- Fuellhinweis: die feste zweizeilige Alternating-Struktur beibehalten
+- Fuellhinweis: zwei feste Zeilen erhalten; ausschliesslich die vorhandene dritte Zeile per Flag ein-/ausblenden. Bei `false` die dritte `article`-Instanz mit `is-hidden` verbergen; bei `true` diese Klasse entfernen. Genau eine Headline. Snippet-Aufrufe immer mit allen 18 dokumentierten Parametern uebergeben.
 
 ### `teaser-2col-listing`
 
@@ -9758,8 +9810,9 @@ Dateityp: html
   <div class="module__inner">
     <div class="stack">
       <div class="module__head">
-        <h2 class="module__title module__title--medium" data-export-field="emb_teaser_2col_alternating_headline" data-export-role="headline">Zwei starke Bereiche für Ihre nächsten Schritte</h2>
+        <h2 class="module__title module__title--medium" data-export-field="emb_teaser_2col_alternating_headline" data-export-role="headline">Starke Bereiche für Ihre nächsten Schritte</h2>
       </div>
+      <span class="is-hidden" data-export-field="emb_teaser_2col_alternating_show_item_3" data-export-role="technical-flag">false</span>
       <div class="alternating-teasers">
         <article class="teaser-split" data-export-item="teaser-2col-alternating-item" data-export-index="1">
           <div class="media media--teaser-alternating teaser-split__media">
@@ -9793,6 +9846,23 @@ Dateityp: html
           <div class="teaser-split__copy">
             <p class="module__body" data-export-field="emb_teaser_2col_alternating_col_2_body" data-export-role="item-body">Nutzen Sie klare Statusschritte, um Vermarktungsfortschritte sichtbar zu machen und die nächsten Aufgaben schnell abzuleiten.</p>
             <a class="teaser-link" href="https://www.immobilienscout24.de" target="_blank" rel="noreferrer" data-export-field="emb_teaser_2col_alternating_col_2_chevron_label" data-export-url-field="emb_teaser_2col_alternating_col_2_chevron_url" data-export-role="item-link">Mehr Details</a>
+          </div>
+        </article>
+        <article class="teaser-split is-hidden" data-export-item="teaser-2col-alternating-item" data-export-index="3">
+          <div class="media media--teaser-alternating teaser-split__media">
+            <div
+              class="preview-image-placeholder preview-image-placeholder--4x3 preview-image-placeholder--pad-lg"
+              data-image-field="emb_teaser_2col_alternating_col_3_image_url"
+              data-image-alt-field="emb_teaser_2col_alternating_col_3_image_alt"
+            >
+              <div class="preview-image-placeholder__text">
+                <p class="preview-image-placeholder__meta">4:3 | 800 x 600 px</p>
+              </div>
+            </div>
+          </div>
+          <div class="teaser-split__copy">
+            <p class="module__body" data-export-field="emb_teaser_2col_alternating_col_3_body" data-export-role="item-body">Bündeln Sie wichtige Informationen und bereiten Sie den nächsten Schritt mit passenden Unterlagen vor.</p>
+            <a class="teaser-link" href="https://www.immobilienscout24.de" target="_blank" rel="noreferrer" data-export-field="emb_teaser_2col_alternating_col_3_chevron_label" data-export-url-field="emb_teaser_2col_alternating_col_3_chevron_url" data-export-role="item-link">Zur Einführung</a>
           </div>
         </article>
       </div>

@@ -2120,6 +2120,42 @@
           "type": "text",
           "required": true,
           "default": ""
+        },
+        {
+          "name": "emb_teaser_2col_alternating_show_item_3",
+          "type": "boolean",
+          "required": true,
+          "default": false
+        },
+        {
+          "name": "emb_teaser_2col_alternating_col_3_image_url",
+          "type": "image_url",
+          "required": false,
+          "default": "https://library.eu.iterable.com/33/98/15fd5a27e1b04e209135462087d1e3bd-emb_placeholder_4x3.png"
+        },
+        {
+          "name": "emb_teaser_2col_alternating_col_3_image_alt",
+          "type": "text",
+          "required": false,
+          "default": ""
+        },
+        {
+          "name": "emb_teaser_2col_alternating_col_3_body",
+          "type": "rich_inline",
+          "required": false,
+          "default": ""
+        },
+        {
+          "name": "emb_teaser_2col_alternating_col_3_chevron_url",
+          "type": "url",
+          "required": false,
+          "default": ""
+        },
+        {
+          "name": "emb_teaser_2col_alternating_col_3_chevron_label",
+          "type": "text",
+          "required": false,
+          "default": ""
         }
       ]
     },
