@@ -1,3 +1,9 @@
+> **Abgeloester E-Mail-Builder-Quellstand. Bestaetigt am 20. November 2026.**
+>
+> Neue Entwicklung ausschliesslich in https://github.com/scout24-creative-ops/email-builder. Die folgenden Inhalte bleiben als historischer Bestand erhalten und sind kein Auftrag zur Reaktivierung. Keine neuen Modul- oder Builder-Aenderungen hier vornehmen. Historische Arbeitsanweisungen unten heben diese Quellzuordnung nicht auf. Bestehende Dateien, Historie und oeffentliche CSS-/JS-/Bild-URLs bleiben bestehen; weder Loeschung noch ein Repo-Transfer oder Live-Publish ist hiermit freigegeben.
+
+---
+
 ZWECK
 Dieses Dokument definiert den Arbeitsprozess für den E-Mail Builder (EMB) und steuert die Zusammenarbeit mit Codex.
 
